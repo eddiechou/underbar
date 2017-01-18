@@ -176,7 +176,7 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    var memo = (typeof accumulator !== 'undefined') ? accumulator : collection[0];
+    var memo = (accumulator !== undefined) ? accumulator : collection[0];
 
     // If an accumulator was passed in
     if (memo === accumulator) {
@@ -208,6 +208,15 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    if (iterator === undefined) {
+      for (let i = 0; i < collection.length; i++) {
+        if(!collection[i]) return false;
+      }
+      return true;
+    };
+    return _.reduce(collection, function(memo, value){
+      return Boolean(iterator(value)) && memo;
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
