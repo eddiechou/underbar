@@ -214,6 +214,7 @@
       }
       return true;
     };
+
     return _.reduce(collection, function(memo, value){
       return Boolean(iterator(value)) && memo;
     }, true);
@@ -223,6 +224,16 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (iterator === undefined) {
+      for (let i = 0; i < collection.length; i++) {
+        if(collection[i]) return true;
+      }
+      return false;
+    }
+
+    return _.reduce(collection, function(memo, value){
+       return Boolean(iterator(value)) || memo;
+    }, false);
   };
 
 
