@@ -82,7 +82,7 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var result = [];
-    _.each(collection, function(value, key, arr){
+    _.each(collection, function(value){
       if (test(value)) {
         result.push(value);
       }
@@ -103,10 +103,12 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
     var result = [];
+    var inResults;
 
-    _.each(array, function(value, index, arr){
-      // If the element has not been seen before, push it
-      if(!(arr.slice(0, index)).includes(value)){
+    _.each(array, function(value){
+      // If the element is not in the results, push it
+      inResults = _.indexOf(result, value);
+      if (inResults === -1) {
         result.push(value);
       }
     });
