@@ -423,10 +423,11 @@
     return collection.sort(function(x, y) {
       var a, b; // a and b represent what we will compare
 
+      // iterator is string
       if (typeof iterator === 'string') {
         a = x[iterator];
         b = y[iterator];
-      } else {
+      } else {  // iterator is function
         a = iterator(x);
         b = iterator(y);;
       }
