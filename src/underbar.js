@@ -401,23 +401,19 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
-    var results = [];
 
-    // If collection is array
-    if (Array.isArray(collection)) {
-      for (let i = 0; i < collection.length; i++) {
-
-        results.push(functionOrKey.apply(collection[i], args));
-      }
-    } else {  // If collection is object
-      for (let element in collection) {
-        if (collection.hasOwnProperty(element)) {
-          results.push(functionOrKey.apply(collection[element], args));
-        }
-      }
+    // If function passed in
+    if (typeof functionOrKey == 'function') {
+      // Maps returns array of elements of each collection mapped to the function applied to it
+      return _.map(collection, function(element){
+        return functionOrKey.apply(element, args);
+      });
+    } else {  // If key passed in
+      return _.map(collection, function(element){
+        return functionOrKey == null ? null : element[functionOrKey].apply(element, args);
+      });
     }
-    return results;
-  };
+  }
 
   // Sort the object's values by a criterion produced by an iterator.
   // If iterator is a string, sort objects by that property with the name
