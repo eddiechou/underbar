@@ -210,10 +210,12 @@
     // TIP: Try re-using reduce() here.
     if (iterator === undefined) {
       for (let i = 0; i < collection.length; i++) {
-        if(!collection[i]) return false;
+        if (!collection[i]) {
+          return false;
+        }
       }
       return true;
-    };
+    }
 
     return _.reduce(collection, function(memo, value){
       return Boolean(iterator(value)) && memo;
@@ -226,7 +228,9 @@
     // TIP: There's a very clever way to re-use every() here.
     if (iterator === undefined) {
       for (let i = 0; i < collection.length; i++) {
-        if(collection[i]) return true;
+        if (collection[i]) {
+          return true;
+        }
       }
       return false;
     }
@@ -256,7 +260,7 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    for (let i=1, numObjToMerge = arguments.length; i < numObjToMerge; i++) {
+    for (let i = 1, numObjToMerge = arguments.length; i < numObjToMerge; i++) {
       var objToMerge = arguments[i];
       for (let attribute in objToMerge) {
         obj[attribute] = objToMerge[attribute];
@@ -268,10 +272,10 @@
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
-    for (let i=1, numObjToMerge = arguments.length; i < numObjToMerge; i++) {
+    for (let i = 1, numObjToMerge = arguments.length; i < numObjToMerge; i++) {
       var objToMerge = arguments[i];
       for (let attribute in objToMerge) {
-        if(obj.hasOwnProperty(attribute)){
+        if (obj.hasOwnProperty(attribute)) {
           continue;
         }
         obj[attribute] = objToMerge[attribute];
@@ -327,22 +331,19 @@
     var args, args2;
 
     return function() {
-      if(alreadyCalled){
+      if (alreadyCalled) {
         args2 = Array.prototype.slice.call(arguments)
-        for(let i=0; i<args2.length; i++){
+        for (let i = 0; i < args2.length; i++) {
           // If both lists don't match, execute the function
-          if(JSON.stringify(args2[i]) != JSON.stringify(args[i])){
+          if (JSON.stringify(args2[i]) != JSON.stringify(args[i])) {
             result = func.apply(this, arguments);
             break;
           }
         }
-      }
-
-      if (!alreadyCalled) {
+      } else {
         args = Array.prototype.slice.call(arguments);
         result = func.apply(this, arguments);
-            alreadyCalled = true;
-
+        alreadyCalled = true;
       }
       return result;
     };
@@ -356,6 +357,7 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     var args = Array.prototype.slice.call(arguments, 2);
+
     return setTimeout(function() {
       return func.apply(null, args);
     }, wait);
@@ -376,14 +378,14 @@
     var arrCopy = array.slice();
     var rand;
 
-    for(let i=0; i<arrCopy.length; i++){
+    for (let i = 0; i < arrCopy.length; i++){
       var max = arrCopy.length - 1;
       rand = Math.floor(Math.random() * (max + 1));
+      // Swap random element with arrCopy[i]
       var temp = arrCopy[rand];
       arrCopy[rand] = arrCopy[i];
       arrCopy[i] = temp;
     }
-
     return arrCopy;
   };
 
