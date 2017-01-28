@@ -480,16 +480,54 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    var res = [];
+    for (let i = 0; i < nestedArray.length; i++) {
+      // If the element is an array
+      if (Array.isArray(nestedArray[i])) {
+        res = res.concat(_.flatten(nestedArray[i]));
+      } else {  // If the element is not an array
+        res.push(nestedArray[i]);
+      }
+    }
+    return res;
+
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var results = [];
+    var remArrays = Array.prototype.slice.call(arguments, 1);
+    // For every element in the first array,
+    // check if that element is in every other array
+    for (let i = 0; i < arguments[0].length; i++) {
+      var element = arguments[0][i];
+      if (_.every(remArrays, function(array){ return array.includes(element); })) {
+        results.push(arguments[0][i]);
+      }
+    }
+    return results;
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var results = array.slice();
+    var remArrays = Array.prototype.slice.call(arguments, 1);
+
+    // Go through each additional array's elements. Remove the element
+    // if it exists in results
+    for (let array_i = 0; array_i < remArrays.length; array_i++) {
+      var array = remArrays[array_i];
+      for (let element_i = 0; element_i < array.length; element_i++) {
+        var index = _.indexOf(results, array[element_i]);
+        if (index > -1) {
+          results.splice(index, 1);
+        }
+      }
+    }
+
+    return results;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
