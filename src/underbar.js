@@ -472,7 +472,6 @@
       }
       result.push(subArray);
     }
-    console.log(result);
     return result;
   };
 
