@@ -429,7 +429,7 @@
         b = y[iterator];
       } else {  // iterator is function
         a = iterator(x);
-        b = iterator(y);;
+        b = iterator(y);
       }
 
       if (a !== b) {
@@ -439,7 +439,7 @@
         if (a < b || b === undefined) {
           return -1;
         }
-      } else {
+      } else {  // a and b are equal
         return 0;
       }
     });
@@ -451,6 +451,29 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var result = [];
+    var maxLength = 0;
+
+    // Get the length of the largest array
+    for (let i = 1; i < arguments.length; i++) {
+      maxLength = arguments[i].length > maxLength ? arguments[i].length : maxLength;
+    }
+
+    // For each element index, create a subarray
+    for (let element_i = 0; element_i < maxLength; element_i++) {
+      var subArray = [];
+      // For each array passed in, push values
+      for (let array_i = 0; array_i < arguments.length; array_i++) {
+        if (arguments[array_i][element_i] === undefined) {
+          subArray.push(undefined);
+        } else {
+          subArray.push(arguments[array_i][element_i]);
+        }
+      }
+      result.push(subArray);
+    }
+    console.log(result);
+    return result;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
